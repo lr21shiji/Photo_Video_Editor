@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    app:behavior_peekHeight="0dp"
+    android:layout_gravity="bottom"
+    app:behavior_hideable="false"
+    app:layout_behavior="@string/bottom_sheet_behavior"
+    android:background="@color/white"
+    android:id="@+id/linear_layout_folder"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_list_folder"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"/>
+
+</LinearLayout>

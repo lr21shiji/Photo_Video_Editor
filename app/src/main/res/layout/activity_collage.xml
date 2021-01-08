@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:background="@color/black"
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.CollageActivity">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="350dp">
+
+        <RelativeLayout
+            android:theme="@style/AppTheme"
+            android:id="@+id/relative_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" >
+
+            <com.jcmore2.collage.CollageView
+                android:id="@+id/collage_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            </com.jcmore2.collage.CollageView>
+        </RelativeLayout>
+
+        <com.xiaopo.flying.puzzle.SquarePuzzleView
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/square_puzzle_view"
+            android:layout_width="match_parent"
+            android:layout_height="350dp" />
+
+        <TextView
+            android:id="@+id/text_view_display"
+            android:textSize="14sp"
+            android:textColor="#ECEAEA"
+            android:text="Choose 1 - 9 pictures to create stunning collages"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:background="#151515"
+        android:gravity="center_vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:onClick="onBack"
+            android:padding="10dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_baseline_clear_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/text_view_frame"
+            android:padding="10dp"
+            android:textAllCaps="true"
+            android:textColor="#FB693B"
+            android:layout_weight="1"
+            android:text="Frame"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/text_view_collage"
+            android:padding="10dp"
+            android:layout_weight="1"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:text="Collage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/text_view_wallpaper"
+            android:padding="10dp"
+            android:layout_weight="1"
+            android:textAllCaps="true"
+            android:textColor="@color/white"
+            android:text="Wallpaper"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <ImageView
+            android:id="@+id/image_view_check"
+            android:padding="10dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_baseline_check_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_list_images"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

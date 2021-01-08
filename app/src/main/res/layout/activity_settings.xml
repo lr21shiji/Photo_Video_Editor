@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.SettingsActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:onClick="onBack"
+        app:titleMarginStart="10dp"
+        app:titleTextColor="@color/white"
+        android:background="#F63E3E"
+        app:navigationIcon="@drawable/ic_baseline_arrow_back"
+        app:title="Settings"
+        android:id="@+id/toolbar_setting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:gravity="center_vertical"
+        android:drawablePadding="10dp"
+        android:drawableLeft="@drawable/ic_baseline_share_red"
+        android:id="@+id/text_view_invite_friends"
+        android:textColor="@color/black"
+        android:text="Invite friends"
+        android:padding="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:background="#333333"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_centerVertical="true"
+            android:id="@+id/text_view_set_wallpaper"
+            android:textColor="@color/black"
+            android:text="Set image wallpaper"
+            android:padding="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Switch
+            android:id="@+id/switch_wallpaper"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:ignore="UseSwitchCompatOrMaterialXml" />
+    </RelativeLayout>
+
+    <View
+        android:background="#333333"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+
+    <TextView
+        android:id="@+id/text_view_follow_facebook"
+        android:gravity="center_vertical"
+        android:drawablePadding="15dp"
+        android:drawableLeft="@drawable/ic_baseline_facebook"
+        android:textColor="@color/black"
+        android:text="Follow facebook account"
+        android:padding="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:background="#333333"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+
+    <TextView
+        android:id="@+id/text_view_subscribe_youtube"
+        android:drawablePadding="15dp"
+        android:drawableLeft="@drawable/ic_baseline_play_circle_filled"
+        android:gravity="center_vertical"
+        android:textColor="@color/black"
+        android:text="Follow youtube account"
+        android:padding="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <View
+        android:background="#333333"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"/>
+
+    <TextView
+        android:id="@+id/text_view_feedback"
+        android:gravity="center_vertical"
+        android:drawablePadding="15dp"
+        android:drawableLeft="@drawable/ic_baseline_feedback"
+        android:textColor="@color/black"
+        android:text="Feedback"
+        android:padding="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+</LinearLayout>

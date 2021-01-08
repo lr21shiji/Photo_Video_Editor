@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".activity.ChooseImageActivity">
+
+        <androidx.recyclerview.widget.RecyclerView
+            tools:listitem="@layout/item_image"
+            app:spanCount="4"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            android:id="@+id/recycler_view_list_images"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:padding="15dp"
+                android:layout_centerVertical="true"
+                android:id="@+id/image_view_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="onBack"
+                android:src="@drawable/ic_baseline_clear_black" />
+
+            <TextView
+                android:padding="15dp"
+                android:textStyle="bold"
+                android:id="@+id/text_view_name_folder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_toEndOf="@id/image_view_back"
+                android:text="Recently"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                app:drawableEndCompat="@drawable/ic_baseline_arrow_drop_down" />
+
+            <ImageView
+                android:layout_centerVertical="true"
+                android:padding="15dp"
+                android:id="@+id/image_view_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:src="@drawable/ic_baseline_more_vert" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <include layout="@layout/layout_bottom_sheet_folder"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

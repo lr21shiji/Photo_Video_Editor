@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout android:background="@color/black"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ja.burhanrashid52.photoeditor.PhotoEditorView
+        android:id="@+id/photo_editor_view"
+        android:layout_width="wrap_content"
+        android:layout_height="430dp"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.tabs.TabLayout
+            app:tabIndicatorColor="@color/white"
+            app:tabTextColor="@color/white"
+            app:tabBackground="@color/black"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content">
+            <com.google.android.material.tabs.TabItem
+                android:text="Filter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <com.google.android.material.tabs.TabItem
+                android:text="Control"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </com.google.android.material.tabs.TabLayout>
+
+        <LinearLayout
+            android:layout_alignParentEnd="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:layout_marginRight="10dp"
+                android:id="@+id/image_view_clear"
+                android:padding="10dp"
+                android:src="@drawable/ic_baseline_clear_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:layout_marginLeft="10dp"
+                android:id="@+id/image_view_check"
+                android:padding="10dp"
+                android:src="@drawable/ic_baseline_check_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_alignParentBottom="true"
+            android:id="@+id/recycler_view_list_filter"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+
+</LinearLayout>
