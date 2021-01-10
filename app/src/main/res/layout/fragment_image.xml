@@ -41,7 +41,6 @@
         </RelativeLayout>
 
         <ja.burhanrashid52.photoeditor.PhotoEditorView
-            android:background="@color/white"
             android:id="@+id/photo_editor_view"
             android:layout_width="wrap_content"
             android:layout_height="430dp"

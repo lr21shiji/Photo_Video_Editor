@@ -61,6 +61,8 @@ public class FilterFragment extends Fragment implements OnItemFilterListener {
         rVListFilter.setHasFixedSize(true);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
         rVListFilter.setLayoutManager(layoutManager);
+        rVListFilter.getRecycledViewPool().setMaxRecycledViews(0, 0);
+        
 
         setupFilters(image);
         FilterAdapter adapter = new FilterAdapter(this, getContext(), pairList, image);

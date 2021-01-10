@@ -41,9 +41,11 @@ dependencies {
     implementation 'com.github.MasayukiSuda:GPUVideo-android:v0.1.1'
     implementation 'com.github.MasayukiSuda:ExoPlayerFilter:v0.2.5'
     implementation 'com.github.MasayukiSuda:Mp4Composer-android:v0.4.1'
+
     implementation 'com.google.android.exoplayer:exoplayer-core:2.10.5'
     implementation 'com.google.android.exoplayer:exoplayer-ui:2.10.2'
     implementation 'com.google.android.exoplayer:exoplayer-dash:2.7.3'
+
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'ja.burhanrashid52:photoeditor:1.1.0'
     implementation 'jp.co.cyberagent.android:gpuimage:2.1.0'
@@ -53,7 +55,8 @@ dependencies {
     implementation 'com.github.freddyfang:android-video-trimmer:v1.0.0'
     implementation 'com.writingminds:FFmpegAndroid:0.3.2'
     implementation 'org.greenrobot:eventbus:3.1.1'
-    implementation 'com.jcmore2.collage:collage:1.0.0'
+    implementation 'jp.wasabeef:glide-transformations:4.0.0'
+ //   implementation 'com.jcmore2.collage:collage:1.0.0'
 
  //   implementation 'org.jcodec:jcodec:0.2.5'
   //  implementation 'org.jcodec:jcodec-android:0.2.5'

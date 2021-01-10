@@ -45,6 +45,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        holder.setIsRecyclable(false);
         Pair<String, PhotoFilter> filterPair = pairList.get(position);
         Uri uri = Uri.parse(image);
 

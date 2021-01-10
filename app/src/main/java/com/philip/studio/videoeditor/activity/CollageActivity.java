@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,12 +22,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.jcmore2.collage.CollageView;
 import com.philip.studio.videoeditor.R;
 import com.philip.studio.videoeditor.adapter.ListImagesAdapter;
 import com.philip.studio.videoeditor.model.ImageData;
 import com.philip.studio.videoeditor.util.PuzzleUtils;
-import com.philip.studio.videoeditor.util.WallpaperUtil;
 import com.xiaopo.flying.puzzle.PuzzleLayout;
 import com.xiaopo.flying.puzzle.PuzzleView;
 
@@ -43,18 +40,15 @@ import java.util.List;
 
 public class CollageActivity extends AppCompatActivity {
 
-    TextView txtDisplay, txtWallpaper, txtFrame, txtCollage;
+    TextView txtDisplay, txtFrame, txtCollage;
     ImageView imgCheck;
     RecyclerView rVListImages;
     PuzzleView puzzleView;
-    CollageView collageView;
 
     ArrayList<String> listImages;
     ArrayList<Bitmap> listBitmaps;
     List<PuzzleLayout> listPuzzleLayout;
     List<Integer> listImage;
-    boolean isFrameStyle;
-    WallpaperUtil wallpaperUtil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,22 +59,12 @@ public class CollageActivity extends AppCompatActivity {
 
         initView();
 
-        if (wallpaperUtil.getWallpaperUtil()){
-            txtWallpaper.setVisibility(View.VISIBLE);
-        }
-        else{
-            txtWallpaper.setVisibility(View.GONE);
-        }
-
-        txtFrame.setTextColor(Color.parseColor("#FFFF5722"));
         puzzleView.setPiecePadding(3.0f);
-        collageView.setVisibility(View.GONE);
 
         setUpRecyclerViewListImages();
 
         txtFrame.setOnClickListener(listener);
         txtCollage.setOnClickListener(listener);
-        txtWallpaper.setOnClickListener(listener);
         imgCheck.setOnClickListener(listener);
     }
 
@@ -88,32 +72,19 @@ public class CollageActivity extends AppCompatActivity {
         @SuppressLint("NonConstantResourceId")
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.text_view_frame:
-                    isFrameStyle = true;
                     puzzleView.setVisibility(View.VISIBLE);
-                    collageView.setVisibility(View.GONE);
                     txtFrame.setTextColor(Color.parseColor("#FB693B"));
                     txtCollage.setTextColor(Color.WHITE);
                     break;
                 case R.id.text_view_collage:
-                    isFrameStyle = false;
                     puzzleView.setVisibility(View.GONE);
-                    collageView.setVisibility(View.VISIBLE);
                     txtCollage.setTextColor(Color.parseColor("#FB693B"));
                     txtFrame.setTextColor(Color.WHITE);
                     break;
-                case R.id.text_view_wallpaper:
-                    Intent intent = new Intent(CollageActivity.this, PreviewActivity.class);
-                    startActivity(intent);
-                    break;
                 case R.id.image_view_check:
-                    if (isFrameStyle){
-                        saveImageFile(puzzleView);
-                    }
-                    else{
-                        saveImageFile(collageView);
-                    }
+                    saveImageFile(puzzleView);
                     break;
             }
         }
@@ -152,7 +123,6 @@ public class CollageActivity extends AppCompatActivity {
         ListImagesAdapter adapter = new ListImagesAdapter(arrayList, this);
         rVListImages.setAdapter(adapter);
 
-
         adapter.setOnItemImageClickListener((position, imageView) -> {
             Bitmap bitmap = null;
             boolean isDisplay = arrayList.get(position).isClick();
@@ -170,13 +140,8 @@ public class CollageActivity extends AppCompatActivity {
             }
             adapter.notifyDataSetChanged();
 
-            if (listBitmaps.size() != 0){
-                if (isFrameStyle){
-                    setUpPuzzleView(listBitmaps);
-                }
-                else{
-                    setUpCollageView(bitmap);
-                }
+            if (listBitmaps.size() != 0) {
+                setUpPuzzleView(listBitmaps);
             } else {
                 txtDisplay.setVisibility(View.VISIBLE);
             }
@@ -213,13 +178,6 @@ public class CollageActivity extends AppCompatActivity {
         puzzleView.addPieces(bitmaps);
     }
 
-    private void setUpCollageView(Bitmap bitmap){
-        List<Bitmap> bitmapList = new ArrayList<>();
-        bitmapList.add(bitmap);
-        collageView.addCard(bitmap);
-        collageView.createCollageBitmaps(bitmapList);
-    }
-
     private ArrayList<ImageData> getAllImageFromGallery() {
         Uri uri;
         Cursor cursor;
@@ -247,17 +205,14 @@ public class CollageActivity extends AppCompatActivity {
     private void initView() {
         txtDisplay = findViewById(R.id.text_view_display);
         txtCollage = findViewById(R.id.text_view_collage);
-        txtWallpaper = findViewById(R.id.text_view_wallpaper);
         txtFrame = findViewById(R.id.text_view_frame);
         imgCheck = findViewById(R.id.image_view_check);
         rVListImages = findViewById(R.id.recycler_view_list_images);
         puzzleView = findViewById(R.id.square_puzzle_view);
-        collageView = findViewById(R.id.collage_view);
 
         listImages = new ArrayList<>();
         listBitmaps = new ArrayList<>();
         listPuzzleLayout = new ArrayList<>();
         listImage = new ArrayList<>();
-        wallpaperUtil = new WallpaperUtil(this);
     }
 }
