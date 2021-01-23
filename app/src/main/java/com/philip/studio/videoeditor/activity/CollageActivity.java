@@ -1,11 +1,13 @@
 package com.philip.studio.videoeditor.activity;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,14 +15,12 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.philip.studio.videoeditor.R;
 import com.philip.studio.videoeditor.adapter.ListImagesAdapter;
@@ -68,7 +68,7 @@ public class CollageActivity extends AppCompatActivity {
         imgCheck.setOnClickListener(listener);
     }
 
-    private View.OnClickListener listener = new View.OnClickListener() {
+    private final View.OnClickListener listener = new View.OnClickListener() {
         @SuppressLint("NonConstantResourceId")
         @Override
         public void onClick(View v) {
@@ -99,13 +99,16 @@ public class CollageActivity extends AppCompatActivity {
             view.draw(canvas);
 
             String nameFile = "IMG_" + System.currentTimeMillis() + ".png";
-            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/Video Editor/" + nameFile);
+            File file = new File(getCacheDir(), nameFile);
             try {
-                file.createNewFile();
-//                MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, nameFile, "Description");
                 FileOutputStream outputStream = new FileOutputStream(file);
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
-                Toast.makeText(this, "Saved successfully", Toast.LENGTH_SHORT).show();
+                outputStream.flush();
+                outputStream.close();
+                Intent intent = new Intent(this, ImageEditorActivity.class);
+                intent.putExtra("image", file.getAbsolutePath());
+                startActivity(intent);
+                finish();
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -199,7 +202,20 @@ public class CollageActivity extends AppCompatActivity {
     }
 
     public void onBack(View view) {
-        finish();
+        showAlertDialog();
+    }
+
+    private void showAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Do you really want exit ?");
+        builder.setPositiveButton("Ok", (dialog, which) -> {
+            finish();
+        });
+
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
     private void initView() {

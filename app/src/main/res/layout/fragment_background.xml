@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/black"
     android:gravity="center_horizontal"
-    tools:context=".activity.DemoActivity">
+    tools:context=".activity.ImageEditorActivity">
 
     <FrameLayout
         android:id="@+id/frame_layout"
@@ -15,18 +15,26 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
 
-        <ImageView
-            android:background="@color/white"
-            android:id="@+id/image_view_background"
+        <FrameLayout
+            android:id="@+id/frame"
             android:layout_width="200dp"
-            android:layout_height="300dp"/>
+            android:layout_height="300dp">
 
-        <ImageView
-            android:layout_gravity="center"
-            android:src="@drawable/image03"
-            android:id="@+id/image_view_preview"
-            android:layout_width="200dp"
-            android:layout_height="300dp"/>
+            <ImageView
+                android:scaleType="centerCrop"
+                android:id="@+id/image_view_background"
+                android:layout_width="200dp"
+                android:layout_height="300dp"/>
+
+            <ImageView
+                android:scaleType="centerCrop"
+                android:layout_gravity="center"
+                android:src="@drawable/image03"
+                android:id="@+id/image_view_preview"
+                android:layout_width="200dp"
+                android:layout_height="300dp"/>
+
+        </FrameLayout>
 
         <TextView
             android:layout_margin="10dp"

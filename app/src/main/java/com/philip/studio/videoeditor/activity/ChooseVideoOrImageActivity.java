@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.tabs.TabLayout;
@@ -16,7 +17,12 @@ import com.philip.studio.videoeditor.R;
 import com.philip.studio.videoeditor.adapter.ResourcePagerAdapter;
 import com.philip.studio.videoeditor.callback.OnSendListImageListener;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import VideoHandle.EpEditor;
+import VideoHandle.OnEditorListener;
 
 public class ChooseVideoOrImageActivity extends AppCompatActivity implements OnSendListImageListener {
 
@@ -25,6 +31,7 @@ public class ChooseVideoOrImageActivity extends AppCompatActivity implements OnS
     FloatingActionButton fabCheck;
 
     ArrayList<String> arrayList;
+    File file;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +45,7 @@ public class ChooseVideoOrImageActivity extends AppCompatActivity implements OnS
         fabCheck.setVisibility(View.VISIBLE);
         fabCheck.setOnClickListener(v -> {
             Intent intent1 = new Intent(ChooseVideoOrImageActivity.this, VideoEditorActivity.class);
-            intent1.putStringArrayListExtra("list", arrayList);
+            intent1.putExtra("video", file.getAbsolutePath());
             startActivity(intent1);
         });
 
@@ -46,7 +53,26 @@ public class ChooseVideoOrImageActivity extends AppCompatActivity implements OnS
         viewPager.setAdapter(resourcePagerAdapter);
         viewPager.setCurrentItem(1);
         tabLayout.setupWithViewPager(viewPager);
+    }
 
+    @Override
+    public void onSend(ArrayList<String> arrayList) {
+        if (arrayList.size() != 0) {
+            this.arrayList = arrayList;
+            fabCheck.setVisibility(View.VISIBLE);
+        } else {
+            fabCheck.setVisibility(View.GONE);
+        }
+    }
+
+    private void createVideoToListImages(ArrayList<String> arrayList) {
+        String nameFile = "VIDEO_" + System.currentTimeMillis() + ".mp4";
+        file = new File(getCacheDir(), nameFile);
+        try {
+            file.createNewFile();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void onBack(View view) {
@@ -62,13 +88,4 @@ public class ChooseVideoOrImageActivity extends AppCompatActivity implements OnS
         arrayList = new ArrayList<>();
     }
 
-    @Override
-    public void onSend(ArrayList<String> arrayList) {
-//        if (arrayList.size() != 0) {
-//            this.arrayList = arrayList;
-//            fabCheck.setVisibility(View.VISIBLE);
-//        } else {
-//            fabCheck.setVisibility(View.GONE);
-//        }
-    }
 }

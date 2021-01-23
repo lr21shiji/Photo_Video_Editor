@@ -14,7 +14,7 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.philip.studio.videoeditor.R;
-import com.philip.studio.videoeditor.callback.OnItemFilterListener;
+import com.philip.studio.videoeditor.callback.OnItemImageFilterListener;
 
 import java.util.List;
 
@@ -22,14 +22,14 @@ import ja.burhanrashid52.photoeditor.PhotoEditor;
 import ja.burhanrashid52.photoeditor.PhotoEditorView;
 import ja.burhanrashid52.photoeditor.PhotoFilter;
 
-public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder> {
+public class ImageFilterAdapter extends RecyclerView.Adapter<ImageFilterAdapter.ViewHolder> {
 
-    private final OnItemFilterListener filterListener;
+    private final OnItemImageFilterListener filterListener;
     private final Context context;
     private final List<Pair<String, PhotoFilter>> pairList;
     String image;
 
-    public FilterAdapter(OnItemFilterListener filterListener, Context context, List<Pair<String, PhotoFilter>> pairList, String image) {
+    public ImageFilterAdapter(OnItemImageFilterListener filterListener, Context context, List<Pair<String, PhotoFilter>> pairList, String image) {
         this.filterListener = filterListener;
         this.context = context;
         this.pairList = pairList;
@@ -39,7 +39,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_filter, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_image_filter, parent, false);
         return new ViewHolder(view);
     }
 

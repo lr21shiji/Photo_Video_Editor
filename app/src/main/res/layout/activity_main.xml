@@ -47,7 +47,7 @@
             android:textSize="14sp"
             android:textAllCaps="true"
             android:textColor="@color/black"
-            android:text="Create New"
+            android:text="@string/create_new"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
@@ -84,7 +84,7 @@
                         android:textSize="14sp"
                         android:textColor="@color/black"
                         android:layout_margin="10dp"
-                        android:text="Video"
+                        android:text="@string/video"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
@@ -109,7 +109,7 @@
                         android:textSize="14sp"
                         android:textColor="@color/black"
                         android:layout_margin="10dp"
-                        android:text="Image"
+                        android:text="@string/image"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
@@ -135,7 +135,7 @@
                         android:textSize="14sp"
                         android:textColor="@color/black"
                         android:layout_margin="10dp"
-                        android:text="Collage"
+                        android:text="@string/collage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"/>
                 </LinearLayout>
@@ -163,22 +163,22 @@
                 android:textSize="14sp"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
-                android:text="Resources"
+                android:text="@string/resources"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
             <TextView
                 android:gravity="center_vertical"
-                android:drawableRight="@drawable/ic_baseline_keyboard_arrow_right"
                 android:layout_alignParentEnd="true"
                 android:textStyle="bold"
                 android:layout_margin="15dp"
                 android:textSize="14sp"
                 android:textAllCaps="true"
                 android:textColor="@color/black"
-                android:text="See All"
+                android:text="@string/see_all"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                app:drawableRightCompat="@drawable/ic_baseline_keyboard_arrow_right" />
 
         </RelativeLayout>
 

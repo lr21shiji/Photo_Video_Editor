@@ -39,7 +39,6 @@ public class RotateFragment extends Fragment {
         this.image = image;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,13 +57,14 @@ public class RotateFragment extends Fragment {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 if (fromUser) {
-                    txtDisplay.setText(String.valueOf(progress));
                     if (isCheckRotateRadius) {
-                        degrees = progress;
+                        txtDisplay.setText(String.valueOf(progress - 180));
+                        degrees = progress - 180;
                         imgImage.setRotation(degrees);
                     } else if (isCheckScale) {
-                        imgImage.setScaleX(progress * 0.1f);
-                        imgImage.setScaleY(progress * 0.1f);
+                        txtDisplay.setText(String.valueOf((progress - 50)));
+                        imgImage.setScaleX(((float) progress/50));
+                        imgImage.setScaleY(((float)progress/50));
                     }
                 }
             }
@@ -98,11 +98,15 @@ public class RotateFragment extends Fragment {
                 imgImage.setRotation(degrees);
                 break;
             case R.id.image_view_rotate_with_radius:
+                sBControl.setMax(360);
+                sBControl.setProgress(180);
                 isCheckRotateRadius = true;
                 isCheckScale = false;
                 setDisplay(View.VISIBLE);
                 break;
             case R.id.image_view_scale:
+                sBControl.setMax(100);
+                sBControl.setProgress(50);
                 isCheckScale = true;
                 isCheckRotateRadius = false;
                 setDisplay(View.VISIBLE);
@@ -163,7 +167,5 @@ public class RotateFragment extends Fragment {
         imgClear = view.findViewById(R.id.image_view_clear);
 
         setDisplay(View.GONE);
-
-        sBControl.setMax(180);
     }
 }

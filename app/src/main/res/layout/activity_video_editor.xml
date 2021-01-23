@@ -10,7 +10,7 @@
     <RelativeLayout
         android:id="@+id/relative_layout"
         android:layout_margin="10dp"
-        android:padding="10dp"
+        android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
@@ -46,7 +46,7 @@
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
         android:layout_below="@id/video_view"
-        android:src="@drawable/ic_baseline_play_arrow"
+        android:src="@drawable/ic_baseline_pause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
@@ -268,31 +268,6 @@
 
                 <ImageView
                     android:padding="10dp"
-                    android:id="@+id/image_view_background"
-                    android:src="@drawable/ic_baseline_texture"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-
-                <TextView
-                    android:textAllCaps="true"
-                    android:textSize="10sp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_marginBottom="10dp"
-                    android:textColor="#DFDCDC"
-                    android:text="Background"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"/>
-            </LinearLayout>
-
-            <LinearLayout
-                android:gravity="center_horizontal"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:padding="10dp"
                     android:id="@+id/image_view_speed"
                     android:src="@drawable/ic_baseline_speed"
                     android:layout_width="wrap_content"
@@ -413,4 +388,9 @@
         </LinearLayout>
     </HorizontalScrollView>
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_list_filter"
+        android:layout_below="@id/horizontal_scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
 </RelativeLayout>

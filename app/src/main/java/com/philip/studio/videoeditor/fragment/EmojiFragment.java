@@ -5,8 +5,6 @@ package com.philip.studio.videoeditor.fragment;/*
 // Copyright © 2021-2022 Philip Studio. All rights reserved.
 //
 */
-
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.philip.studio.videoeditor.R;
 import com.philip.studio.videoeditor.adapter.EmojiAdapter;
-import com.philip.studio.videoeditor.callback.OnItemEmojiClickListener;
 import com.philip.studio.videoeditor.event.EmojiEvent;
 
 import org.greenrobot.eventbus.EventBus;

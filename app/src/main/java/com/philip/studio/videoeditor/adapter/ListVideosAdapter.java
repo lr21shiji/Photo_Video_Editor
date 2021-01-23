@@ -40,7 +40,9 @@ public class ListVideosAdapter extends RecyclerView.Adapter<ListVideosAdapter.Vi
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Glide.with(context).load(arrayList.get(position)).into(holder.imageView);
+        if (arrayList.get(position) != null){
+            holder.imageView.setImageResource(R.drawable.image1);
+        }
     }
 
     @Override

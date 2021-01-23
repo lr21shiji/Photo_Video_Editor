@@ -3,21 +3,15 @@ package com.philip.studio.videoeditor.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.philip.studio.videoeditor.R;
-import com.philip.studio.videoeditor.callback.OnCropImageListener;
 import com.philip.studio.videoeditor.fragment.ImageFragment;
-import com.yalantis.ucrop.UCrop;
 
-import java.io.File;
-
-public class ImageEditorActivity extends AppCompatActivity implements OnCropImageListener {
+public class ImageEditorActivity extends AppCompatActivity {
 
     FrameLayout frameLayout;
 
@@ -41,23 +35,4 @@ public class ImageEditorActivity extends AppCompatActivity implements OnCropImag
                 .replace(R.id.frame_layout_container, new ImageFragment(image))
                 .commit();
     }
-
-    @Override
-    public void onCropImage(Uri uri) {
-
-    }
-
-    private void startCrop(Uri uri) {
-        String nameFile = "IMG_" + System.currentTimeMillis() + ".png";
-        UCrop uCrop = UCrop.of(uri, Uri.fromFile(new File(getCacheDir(), nameFile)));
-
-        uCrop.useSourceImageAspectRatio();
-        UCrop.Options options = new UCrop.Options();
-        options.setCompressionFormat(Bitmap.CompressFormat.PNG);
-        options.setHideBottomControls(false);
-        options.setFreeStyleCropEnabled(false);
-
-        uCrop.start(ImageEditorActivity.this);
-    }
-
 }

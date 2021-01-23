@@ -12,13 +12,17 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -39,7 +43,9 @@ public class BackgroundFragment extends Fragment {
     ImageView imgImage, imgCheck, imgClear, imgOpenGallery, imgBackground,
             imgOriginal, imgBlurOne, imgBlurTwo, imgBlurThree, imgBlurFour;
     RecyclerView rVListGradient, rVListColor;
+    FrameLayout frameLayout;
 
+    ScaleGestureDetector scaleGestureDetector;
     String image;
     private static final int REQUEST_CODE = 123;
     int[] backgroundColors = {R.drawable.gradient1, R.drawable.gradient2, R.drawable.gradient3, R.drawable.gradient4,
@@ -50,6 +56,7 @@ public class BackgroundFragment extends Fragment {
         this.image = image;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -77,48 +84,65 @@ public class BackgroundFragment extends Fragment {
         imgBlurThree.setOnClickListener(listener);
         imgBlurFour.setOnClickListener(listener);
 
+        imgImage.setOnTouchListener((v, event) -> {
+            scaleGestureDetector.onTouchEvent(event);
+            return true;
+        });
+
         return view;
     }
 
-    private View.OnClickListener listener = new View.OnClickListener() {
+    private final View.OnClickListener listener = new View.OnClickListener() {
+        @SuppressLint("NonConstantResourceId")
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.image_view_check:
-                    drawAndSaveBitmap(imgImage);
+                    drawAndSaveBitmap(frameLayout);
                     break;
                 case R.id.image_view_clear:
-                    getActivity().getSupportFragmentManager()
-                            .beginTransaction()
-                            .replace(R.id.frame_layout_container, new ImageFragment(image))
-                            .commit();
+                    showAlertDialog();
                     break;
                 case R.id.image_view_open_gallery:
                     openGallery();
                     break;
                 case R.id.image_view_blur_one:
-                    setUpImageBlur(1, imgBackground);
+                    setUpImageBlur(5, imgBackground);
                     break;
                 case R.id.image_view_blur_two:
-                    setUpImageBlur(6, imgBackground);
+                    setUpImageBlur(10, imgBackground);
                     break;
                 case R.id.image_view_blur_three:
-                    setUpImageBlur(8, imgBackground);
+                    setUpImageBlur(22, imgBackground);
                     break;
                 case R.id.image_view_blur_four:
-                    setUpImageBlur(10, imgBackground);
+                    setUpImageBlur(40, imgBackground);
                     break;
             }
         }
     };
 
-    private void setUpImageBlur(int blur, ImageView imageView){
+    private void showAlertDialog(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setMessage("Do you really want exit ?");
+        builder.setPositiveButton("Ok", (dialog, which) -> getActivity().getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.frame_layout_container, new ImageFragment(image))
+                .commit());
+
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void setUpImageBlur(int blur, ImageView imageView) {
         Glide.with(getContext()).load(image)
                 .transform(new BlurTransformation(blur))
                 .into(imageView);
     }
 
-    private void drawAndSaveBitmap(View view){
+    private void drawAndSaveBitmap(View view) {
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
         view.draw(canvas);
@@ -138,12 +162,9 @@ public class BackgroundFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-//        String nameFile = "IMG_" + System.currentTimeMillis() + ".png";
-//        MediaStore.Images.Media.insertImage(getContext().getContentResolver(), bitmap, nameFile, "Description");
     }
 
-    private void openGallery(){
+    private void openGallery() {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
@@ -154,14 +175,15 @@ public class BackgroundFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (resultCode == getActivity().RESULT_OK && requestCode == REQUEST_CODE && data != null){
+        if (resultCode == getActivity().RESULT_OK && requestCode == REQUEST_CODE && data != null) {
             Uri uri = data.getData();
+
             Glide.with(getContext()).load(uri).into(imgBackground);
         }
     }
 
     @SuppressLint("UseCompatLoadingForDrawables")
-    private void setUpRecyclerViewListGradient(){
+    private void setUpRecyclerViewListGradient() {
         rVListGradient.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
@@ -173,7 +195,7 @@ public class BackgroundFragment extends Fragment {
         adapter.setOnItemBackgroundGradientListener(res -> imgImage.setBackground(getContext().getDrawable(res)));
     }
 
-    private void setUpRecyclerViewListColor(){
+    private void setUpRecyclerViewListColor() {
         rVListColor.setHasFixedSize(true);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), RecyclerView.HORIZONTAL, false);
@@ -185,7 +207,7 @@ public class BackgroundFragment extends Fragment {
         adapter.setOnColorPickerClickListener(colorCode -> imgBackground.setBackgroundColor(colorCode));
     }
 
-    private void initView(View view){
+    private void initView(View view) {
         imgImage = view.findViewById(R.id.image_view_preview);
         imgCheck = view.findViewById(R.id.image_view_check);
         imgClear = view.findViewById(R.id.image_view_clear);
@@ -196,8 +218,37 @@ public class BackgroundFragment extends Fragment {
         imgBlurTwo = view.findViewById(R.id.image_view_blur_two);
         imgBlurThree = view.findViewById(R.id.image_view_blur_three);
         imgBlurFour = view.findViewById(R.id.image_view_blur_four);
+        frameLayout = view.findViewById(R.id.frame);
         rVListGradient = view.findViewById(R.id.recycler_view_list_gradients);
         rVListColor = view.findViewById(R.id.recycler_view_list_color);
+
+        scaleGestureDetector = new ScaleGestureDetector(getContext(), new MyGesture());
+    }
+
+    class MyGesture extends ScaleGestureDetector.SimpleOnScaleGestureListener {
+        float scale = 1.0f, onScaleStart = 0, onScaleEnd = 0;
+
+        @Override
+        public boolean onScale(ScaleGestureDetector detector) {
+            scale *= detector.getScaleFactor();
+            imgImage.setScaleX(scale);
+            imgImage.setScaleY(scale);
+            return super.onScale(detector);
+        }
+
+        @Override
+        public boolean onScaleBegin(ScaleGestureDetector detector) {
+            onScaleStart = scale;
+            Log.d("ScaleImage", "Gia tri truoc khi Scale: " + onScaleStart);
+            return super.onScaleBegin(detector);
+        }
+
+        @Override
+        public void onScaleEnd(ScaleGestureDetector detector) {
+            onScaleEnd = scale;
+            Log.d("ScaleImage", "Gia tri sau khi Scale: " + onScaleEnd);
+            super.onScaleEnd(detector);
+        }
     }
 }
 

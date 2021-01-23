@@ -20,8 +20,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.philip.studio.videoeditor.R;
-import com.philip.studio.videoeditor.adapter.FilterAdapter;
-import com.philip.studio.videoeditor.callback.OnItemFilterListener;
+import com.philip.studio.videoeditor.adapter.ImageFilterAdapter;
+import com.philip.studio.videoeditor.callback.OnItemImageFilterListener;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +33,7 @@ import ja.burhanrashid52.photoeditor.PhotoEditorView;
 import ja.burhanrashid52.photoeditor.PhotoFilter;
 import ja.burhanrashid52.photoeditor.SaveSettings;
 
-public class FilterFragment extends Fragment implements OnItemFilterListener {
+public class ImageFilterFragment extends Fragment implements OnItemImageFilterListener {
 
     RecyclerView rVListFilter;
     PhotoEditorView photoEditorView;
@@ -43,7 +43,7 @@ public class FilterFragment extends Fragment implements OnItemFilterListener {
     String image;
     List<Pair<String, PhotoFilter>> pairList = new ArrayList<>();
 
-    public FilterFragment(String image) {
+    public ImageFilterFragment(String image) {
         this.image = image;
     }
 
@@ -65,7 +65,7 @@ public class FilterFragment extends Fragment implements OnItemFilterListener {
         
 
         setupFilters(image);
-        FilterAdapter adapter = new FilterAdapter(this, getContext(), pairList, image);
+        ImageFilterAdapter adapter = new ImageFilterAdapter(this, getContext(), pairList, image);
         rVListFilter.setAdapter(adapter);
 
         imgCheck.setOnClickListener(v -> saveToCacheImageFile());

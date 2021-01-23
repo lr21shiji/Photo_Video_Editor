@@ -1,8 +1,8 @@
 package com.philip.studio.videoeditor.fragment;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
@@ -36,7 +36,6 @@ import com.philip.studio.videoeditor.MainActivity;
 import com.philip.studio.videoeditor.R;
 import com.philip.studio.videoeditor.activity.ShareImageActivity;
 import com.philip.studio.videoeditor.adapter.StickerEmojiPagerAdapter;
-import com.philip.studio.videoeditor.callback.OnCropImageListener;
 import com.philip.studio.videoeditor.event.EmojiEvent;
 import com.philip.studio.videoeditor.event.StickerEvent;
 
@@ -53,9 +52,8 @@ import ja.burhanrashid52.photoeditor.SaveSettings;
 
 public class ImageFragment extends Fragment {
 
-    ImageView imgFilter, imgEffect, imgBackground,
-            imgCrop, imgEmoji, imgText, imgRotate, imgBack;
-    TextView txtSaved;
+    ImageView imgBack;
+    TextView txtSaved, txtFilter, txtEffect, txtBackground, txtCrop, txtEmoji, txtText, txtRotate;
     PhotoEditorView photoEditorView;
     LinearLayout linearLayout;
     ViewPager viewPager;
@@ -64,7 +62,6 @@ public class ImageFragment extends Fragment {
     Uri imageUri;
     PhotoEditor photoEditor;
     BottomSheetBehavior<LinearLayout> bottomSheetBehavior;
-    OnCropImageListener cropImageListener;
     String image;
 
     public ImageFragment(String image) {
@@ -81,54 +78,58 @@ public class ImageFragment extends Fragment {
         photoEditorView.getSource().setImageURI(imageUri);
         setUpPhotoEditor();
 
-        imgText.setOnClickListener(listener);
-        imgEmoji.setOnClickListener(listener);
+        txtText.setOnClickListener(listener);
+        txtEmoji.setOnClickListener(listener);
         imgBack.setOnClickListener(listener);
-        imgFilter.setOnClickListener(listener);
-        imgRotate.setOnClickListener(listener);
-        imgEffect.setOnClickListener(listener);
-        imgCrop.setOnClickListener(listener);
-        imgBackground.setOnClickListener(listener);
+        txtFilter.setOnClickListener(listener);
+        txtRotate.setOnClickListener(listener);
+        txtEffect.setOnClickListener(listener);
+        txtCrop.setOnClickListener(listener);
+        txtBackground.setOnClickListener(listener);
         txtSaved.setOnClickListener(listener);
 
         return view;
     }
 
-    private View.OnClickListener listener = v -> {
+    @SuppressLint("NonConstantResourceId")
+    private final View.OnClickListener listener = v -> {
         switch (v.getId()) {
-            case R.id.image_view_text:
+            case R.id.text_view_text:
                 getFragmentManager().beginTransaction()
                         .replace(R.id.frame_layout_container, new TextFragment(image))
                         .commit();
                 break;
-            case R.id.image_view_emoji:
+            case R.id.text_view_emoji:
                 showBottomSheetEmoji();
                 break;
             case R.id.image_view_back:
                 showAlertDialog();
                 break;
-            case R.id.image_view_filter:
+            case R.id.text_view_filter:
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
-                        .replace(R.id.frame_layout_container, new FilterFragment(image))
+                        .replace(R.id.frame_layout_container, new ImageFilterFragment(image))
                         .commit();
                 break;
-            case R.id.image_view_rotate:
+            case R.id.text_view_rotate:
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame_layout_container, new RotateFragment(image))
                         .commit();
                 break;
-            case R.id.image_view_effect:
+            case R.id.text_view_effect:
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame_layout_container, new EffectFragment(image))
                         .commit();
                 break;
-            case R.id.image_view_crop:
-                cropImageListener.onCropImage(imageUri);
+            case R.id.text_view_crop:
+                getActivity().getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.frame_layout_container, new CropFragment(image))
+                        .commit();
                 break;
-            case R.id.image_view_background:
+            case R.id.text_view_background:
                 getActivity().getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.frame_layout_container, new BackgroundFragment(image))
@@ -150,11 +151,18 @@ public class ImageFragment extends Fragment {
         }
 
         String nameFile = "IMG_" + System.currentTimeMillis() + ".png";
-        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/Video Editor/" + nameFile);
-        try {
-            file.createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
+        File directoryFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM) + "/Video Editor/");
+        if (!directoryFile.exists()){
+            directoryFile.mkdir();
+        }
+
+        File file = new File(directoryFile, nameFile);
+        if (!file.exists()){
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         SaveSettings saveSettings = new SaveSettings.Builder()
                 .setTransparencyEnabled(true)
@@ -211,7 +219,7 @@ public class ImageFragment extends Fragment {
         tabLayout.setupWithViewPager(viewPager);
     }
 
-    private void showAlertDialog(){
+    private void showAlertDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMessage("Do you really want exit ?");
         builder.setPositiveButton("Ok", (dialog, which) -> {
@@ -234,13 +242,13 @@ public class ImageFragment extends Fragment {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventMainThread(EmojiEvent emojiEvent){
+    public void onEventMainThread(EmojiEvent emojiEvent) {
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         photoEditor.addEmoji(emojiEvent.getEmoji());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onEventMainThread(StickerEvent stickerEvent){
+    public void onEventMainThread(StickerEvent stickerEvent) {
         bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
         int sticker = stickerEvent.getSticker();
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), sticker);
@@ -250,25 +258,18 @@ public class ImageFragment extends Fragment {
     private void initView(View view) {
         photoEditorView = view.findViewById(R.id.photo_editor_view);
         txtSaved = view.findViewById(R.id.text_view_saved);
-        imgFilter = view.findViewById(R.id.image_view_filter);
-        imgBackground = view.findViewById(R.id.image_view_background);
-        imgEffect = view.findViewById(R.id.image_view_effect);
-        imgCrop = view.findViewById(R.id.image_view_crop);
-        imgText = view.findViewById(R.id.image_view_text);
-        imgEmoji = view.findViewById(R.id.image_view_emoji);
-        imgRotate = view.findViewById(R.id.image_view_rotate);
+        txtBackground = view.findViewById(R.id.text_view_background);
+        txtCrop = view.findViewById(R.id.text_view_crop);
+        txtEffect = view.findViewById(R.id.text_view_effect);
+        txtFilter = view.findViewById(R.id.text_view_filter);
+        txtText = view.findViewById(R.id.text_view_text);
+        txtEmoji = view.findViewById(R.id.text_view_emoji);
+        txtRotate = view.findViewById(R.id.text_view_rotate);
         imgBack = view.findViewById(R.id.image_view_back);
         viewPager = view.findViewById(R.id.view_pager);
         tabLayout = view.findViewById(R.id.tab_layout);
 
         linearLayout = view.findViewById(R.id.linear_layout_emoji);
         bottomSheetBehavior = BottomSheetBehavior.from(linearLayout);
-    }
-
-    @Override
-    public void onAttach(@NonNull Context context) {
-        super.onAttach(context);
-
-        cropImageListener = (OnCropImageListener) context;
     }
 }
